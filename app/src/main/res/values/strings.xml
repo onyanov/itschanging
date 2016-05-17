@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Оно меняется!</string>
+    <string name="action_close">Закрыть</string>
+    <string name="project_type">Выберите тип съемки</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_cancel">Отменить</string>
+    <string name="project_delete_confirm_title">Вы действительно хотите удалить проект?</string>
+    <string name="project_delete_confirm_message">Выполнение этого действия уничтожит все фотографии, относящиеся к этому проекту. Действие будет невозможно отменить.</string>
+    <string name="project_name">Название проекта</string>
+
+    <string name="project_type_regular">Регулярная</string>
+    <string name="project_type_simple">Простая пара</string>
+    <string name="project_type_auto">Автоматическая</string>
+    <string name="action_create">Создать</string>
+    <string name="action_play">Слайдшоу</string>
+
+    <array name="project_types">
+        <item>@string/project_type_regular</item>
+        <item>@string/project_type_simple</item>
+        <item>@string/project_type_auto</item>
+    </array>
+
+    <string name="bad_project">Ошибка загрузки проекта</string>
+    <string name="image_number" translatable="false">#%d</string>
+    <string name="action_edit">Изменить</string>
+    <string name="bad_shot">Не удалось сохранить фото. Попробуйте еще раз.</string>
+
+    <string name="ffmpeg_error">Ошибка генерации видео</string>
+    <string name="video_choose_share">Поделиться видеороликом</string>
+    <string name="video_error">Невозможно воспроизвести видео</string>
+    <string name="generate">Generate</string>
+    <string name="action_video">Создать видео</string>
+    <string name="project_edit">Изменение проекта</string>
+    <string name="no_projects">Создайте свой первый проект и делайте лучшие фотографии</string>
+</resources>

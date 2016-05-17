@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Оно меняется!</string>
+    <string name="action_cancel">Отменить</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_create">Создать</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_play">Слайдшоу</string>
+    <string name="bad_project">Ошибка загрузки проекта</string>
+    <string name="project_delete_confirm_message">Выполнение этого действия уничтожит все фотографии, относящиеся к этому проекту. Действие будет невозможно отменить.</string>
+    <string name="project_delete_confirm_title">Вы действительно хотите удалить проект?</string>
+    <string name="project_name">Название проекта</string>
+    <string name="project_type">Выберите тип съемки</string>
+    <string name="project_type_auto">Автоматическая</string>
+    <string name="project_type_regular">По расписанию</string>
+    <string name="project_type_simple">Простая пара</string>
+    <string name="action_edit">Изменить</string>
+</resources>

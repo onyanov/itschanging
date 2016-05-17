@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ru.onyanov.itschanging.ProjectActivity">
+
+    <item
+        android:id="@+id/action_play"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_action_play"
+        android:title="@string/action_play"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_video"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_action_video"
+        android:title="@string/action_video"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_edit"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="101"
+        android:title="@string/action_delete"
+        app:showAsAction="never" />
+</menu>
