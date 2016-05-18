@@ -1,10 +1,15 @@
 package ru.onyanov.itschanging.utils;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
-import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -13,15 +18,9 @@ import java.util.Random;
 public class StorageUtil {
     private static final String TAG = "StorageUtil";
 
-    public static final String IMAGE_NAME_FORMAT = "image_%03d.jpg";
-
     private static final String APP_VIDEO_FOLDER = "its_changing";
 
-    //TODO deleteProject this
-    public static String getImageName(int i) {
-        return String.format(Locale.US, IMAGE_NAME_FORMAT, i);
-    }
-
+    public static final int MY_PERMISSIONS_REQUEST_STORAGE = 1;
 
     public static String getImageDirectoryPath(int projectId) {
         return getProjectDir(projectId, "images");
@@ -102,5 +101,37 @@ public class StorageUtil {
         }
         sb.append(".jpg");
         return new File(dir, sb.toString());
+    }
+
+    public static boolean checkStoragePermission(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                Toast.makeText(activity, "We need filesystem access", Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_STORAGE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            return true;
+        }
+        return false;
     }
 }

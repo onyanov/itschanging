@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:padding="@dimen/gridspacing">
     <!-- A CardView that contains a TextView -->
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
@@ -20,27 +17,43 @@
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/project_title_default"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="20sp"
+                app:typeface="roboto_regular" />
 
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                android:minHeight="100dp"/>
+                android:layout_height="@dimen/project_image_height"
+                android:minHeight="@dimen/project_image_height"
+                android:contentDescription="@string/project_title_default" />
 
-            <com.devspark.robototextview.widget.RobotoTextView
-                android:padding="16dp"
-                android:id="@+id/name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="24sp"
-                android:text="11"
-                app:typeface="roboto_regular"/>
+                android:orientation="horizontal">
 
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fish_photo_count" />
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fish_date" />
+            </LinearLayout>
         </LinearLayout>
 
 

@@ -4,7 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="spacing">4dp</dimen>
+    <dimen name="gridspacing">8dp</dimen>
     <dimen name="status_bar_height">25dp</dimen>
+    <dimen name="project_image_height">160dp</dimen>
     <integer name="project_columns">1</integer>
     <integer name="photo_columns">3</integer>
 </resources>

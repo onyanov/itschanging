@@ -97,6 +97,7 @@ public class ProjectActivity extends AppCompatActivity implements VideoCompilati
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putInt(PARAM_ID, projectId);
+        //TODO save destinationPath
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -104,6 +105,7 @@ public class ProjectActivity extends AppCompatActivity implements VideoCompilati
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         projectId = savedInstanceState.getInt(PARAM_ID);
+        //TODO load destinationpath
     }
 
     @Override
@@ -147,7 +149,7 @@ public class ProjectActivity extends AppCompatActivity implements VideoCompilati
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.home) {
+        if (id == android.R.id.home) {
             Intent intent = new Intent(ProjectActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -158,7 +160,7 @@ public class ProjectActivity extends AppCompatActivity implements VideoCompilati
             return true;
         } else if (id == R.id.action_settings) {
             Intent intent = new Intent(this, ProjectFormActivity.class);
-            intent.putExtra(SlideshowActivity.FIELD_PROJECT_ID, projectId);
+            intent.putExtra(ProjectFormActivity.FIELD_PROJECT_ID, projectId);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_delete) {
@@ -188,7 +190,12 @@ public class ProjectActivity extends AppCompatActivity implements VideoCompilati
     }
 
     private void tryToGenerateVideo() {
-        // Here, thisActivity is the current activity
+        if (checkStoragePermission()) {
+            generateVideo();
+        }
+    }
+
+    private boolean checkStoragePermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -215,9 +222,9 @@ public class ProjectActivity extends AppCompatActivity implements VideoCompilati
                 // result of the request.
             }
         } else {
-            generateVideo();
-
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -293,24 +300,33 @@ public class ProjectActivity extends AppCompatActivity implements VideoCompilati
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
-            String maskFileName = maskFile == null ? null : maskFile.getAbsolutePath();
-            destinationPath = StorageUtil.generateFileName(projectDir);
-
-            Intent i = new CameraActivity.IntentBuilder(ProjectActivity.this)
-                    .skipConfirm()
-                    .focusMode(FocusMode.CONTINUOUS)
-                    .facing(Facing.BACK)
-                    .to(destinationPath.getAbsoluteFile())
-                    .mask(maskFileName)
-                    .debug()
-                    .zoomStyle(ZoomStyle.PINCH)
-                    .updateMediaStore()
-                    .build();
-
-            startActivityForResult(i, REQUEST_PORTRAIT_FFC);
+            tryMakePhoto();
         }
     };
+
+    private void tryMakePhoto() {
+        if (checkStoragePermission()) {
+            makePhoto();
+        }
+    }
+
+    private void makePhoto() {
+        String maskFileName = maskFile == null ? null : maskFile.getAbsolutePath();
+        destinationPath = StorageUtil.generateFileName(projectDir);
+
+        Intent i = new CameraActivity.IntentBuilder(ProjectActivity.this)
+                .skipConfirm()
+                .focusMode(FocusMode.CONTINUOUS)
+                .facing(Facing.BACK)
+                .to(destinationPath.getAbsoluteFile())
+                .mask(maskFileName)
+                .debug()
+                .zoomStyle(ZoomStyle.PINCH)
+                .updateMediaStore()
+                .build();
+
+        startActivityForResult(i, REQUEST_PORTRAIT_FFC);
+    }
 
     public class PhotoItemListener implements View.OnClickListener {
         @Override

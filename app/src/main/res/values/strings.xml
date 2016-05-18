@@ -32,4 +32,9 @@
     <string name="action_video">Создать видео</string>
     <string name="project_edit">Изменение проекта</string>
     <string name="no_projects">Создайте свой первый проект и делайте лучшие фотографии</string>
+    <string name="project_title_default">Без названия</string>
+    <string name="project_title_label">Назовите проект</string>
+    <string name="action_save">Сохранить</string>
+    <string name="fish_photo_count">15 фото</string>
+    <string name="fish_date">14 июля</string>
 </resources>

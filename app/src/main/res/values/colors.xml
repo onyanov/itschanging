@@ -6,4 +6,8 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="colorBackground">#E0E0E0</color>
+    <color name="black_shadow">#80000000</color>
+
+    <color name="darkColorAccent">#FFEE58</color>
+    <color name="nightColorPrimaryDark">#33691E</color>
 </resources>

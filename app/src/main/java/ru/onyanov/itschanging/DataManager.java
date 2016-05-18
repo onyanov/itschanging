@@ -39,9 +39,7 @@ public class DataManager {
     }
 
     public static RealmProject getProject(long projectId) {
-        RealmProject project = getRealm().where(RealmProject.class).equalTo("id", projectId).findFirst();
-        getRealm().close();
-        return project;
+        return getRealm().where(RealmProject.class).equalTo("id", projectId).findFirst();
     }
 
     public static RealmProject createProject(String title) {
@@ -52,6 +50,14 @@ public class DataManager {
         project.setTitle(title);
         getRealm().commitTransaction();
         return project;
+    }
+
+    public static void renameProject(int id, String title) {
+        getRealm().beginTransaction();
+        RealmProject project = getProject(id);
+        project.setTitle(title);
+        getRealm().commitTransaction();
+        getRealm().close();
     }
 
     public static Photo createPhoto(String file, RealmProject project) {

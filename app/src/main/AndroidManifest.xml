@@ -29,7 +29,8 @@
         <activity
             android:name="ru.onyanov.itschanging.ProjectFormActivity"
             android:label="@string/project_edit"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="stateVisible" />
 
         <activity
             android:name="ru.onyanov.itschanging.SlideshowActivity"
