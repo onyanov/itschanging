@@ -17,6 +17,7 @@ package ru.onyanov.camera;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -29,11 +30,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import ru.onyanov.camera.util.Utils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -83,7 +85,7 @@ abstract public class AbstractCameraActivity extends Activity {
   /**
    * @return a CameraFragment for the given circumstances
    */
-  abstract protected CameraFragment buildFragment();
+  abstract protected CameraFragmentContract buildFragment();
 
   /**
    * @return array of the names of the permissions needed by
@@ -153,9 +155,9 @@ abstract public class AbstractCameraActivity extends Activity {
    */
   public static final String EXTRA_FOCUS_MODE="cwac_cam2_focus_mode";
 
-  protected static final String TAG_CAMERA=CameraFragment.class.getCanonicalName();
+  protected static final String TAG_CAMERA=AbstractCameraActivity.class.getCanonicalName();
   private static final int REQUEST_PERMS=13401;
-  protected CameraFragment cameraFrag;
+  protected CameraFragmentContract cameraFrag;
 
   /**
    * Standard lifecycle method, serving as the main entry
@@ -167,8 +169,6 @@ abstract public class AbstractCameraActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    Utils.validateEnvironment(this);
 
     if (needsOverlay()) {
       getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -299,7 +299,7 @@ abstract public class AbstractCameraActivity extends Activity {
   }
 
   protected void init() {
-    cameraFrag=(CameraFragment)getFragmentManager().findFragmentByTag(TAG_CAMERA);
+    cameraFrag=(CameraFragmentContract)getFragmentManager().findFragmentByTag(TAG_CAMERA);
 
     if (cameraFrag==null) {
       cameraFrag=buildFragment();
@@ -346,7 +346,7 @@ abstract public class AbstractCameraActivity extends Activity {
 
       getFragmentManager()
         .beginTransaction()
-        .add(android.R.id.content, cameraFrag, TAG_CAMERA)
+        .add(android.R.id.content, (Fragment) cameraFrag, TAG_CAMERA)
         .commit();
     }
   }
@@ -365,7 +365,7 @@ abstract public class AbstractCameraActivity extends Activity {
   }
 
   private String[] netPermissions(String[] wanted) {
-    ArrayList<String> result=new ArrayList<String>();
+    ArrayList<String> result=new ArrayList<>();
 
     for (String perm : wanted) {
       if (!hasPermission(perm)) {
@@ -377,7 +377,7 @@ abstract public class AbstractCameraActivity extends Activity {
   }
 
   abstract public static class IntentBuilder<T extends IntentBuilder> {
-    abstract Intent buildChooserBaseIntent();
+    public abstract Intent buildChooserBaseIntent();
 
     protected final Intent result;
 
@@ -389,7 +389,6 @@ abstract public class AbstractCameraActivity extends Activity {
      * @param ctxt any Context will do
      */
     public IntentBuilder(Context ctxt, Class clazz) {
-      Utils.validateEnvironment(ctxt);
       result=new Intent(ctxt, clazz);
     }
 

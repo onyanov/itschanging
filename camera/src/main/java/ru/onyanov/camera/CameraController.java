@@ -210,13 +210,13 @@ public class CameraController implements CameraView.StateCallback {
     return(engine.supportsZoom(session));
   }
 
-  boolean changeZoom(int delta) {
+  public boolean changeZoom(int delta) {
     zoomLevel+=delta;
 
     return(handleZoom());
   }
 
-  boolean setZoom(int zoomLevel) {
+  public boolean setZoom(int zoomLevel) {
     this.zoomLevel=zoomLevel;
 
     return(handleZoom());

@@ -21,7 +21,6 @@ import android.util.Log;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -373,7 +372,7 @@ abstract public class CameraEngine {
     this.pool=pool;
   }
 
-  void setPreferredFlashModes(List<FlashMode> flashModes) {
+  public void setPreferredFlashModes(List<FlashMode> flashModes) {
     preferredFlashModes=flashModes;
   }
 

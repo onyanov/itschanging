@@ -17,8 +17,4 @@
         android:name="android.hardware.microphone"
         android:required="false"/>
 
-    <application>
-        <activity android:name="CameraActivity" android:configChanges="orientation"/>
-    </application>
-
 </manifest>
