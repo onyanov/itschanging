@@ -12,16 +12,26 @@
  limitations under the License.
 */
 
-package ru.onyanov.camera;
+package ru.onyanov.itschanging;
 
 import android.Manifest;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.onyanov.camera.AbstractCameraActivity;
+import ru.onyanov.camera.CameraEngine;
+import ru.onyanov.camera.FlashMode;
+import ru.onyanov.camera.ImageContext;
+import ru.onyanov.camera.ZoomStyle;
+import ru.onyanov.itschanging.utils.CameraUtils;
 
 /**
  * Stock activity for taking pictures. Supports the same
@@ -65,6 +75,12 @@ public class CameraActivity extends AbstractCameraActivity
   private boolean needsThumbnail=false;
 
   @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    CameraUtils.validateEnvironment(this);
+    super.onCreate(savedInstanceState);
+  }
+
+  @Override
   protected String[] getNeededPermissions() {
     return(PERMS);
   }
@@ -87,11 +103,11 @@ public class CameraActivity extends AbstractCameraActivity
           .commit();
     }
 
-    if (!cameraFrag.isVisible() && !confirmFrag.isVisible()) {
+    if (!((Fragment)cameraFrag).isVisible() && !confirmFrag.isVisible()) {
       getFragmentManager()
           .beginTransaction()
           .hide(confirmFrag)
-          .show(cameraFrag)
+          .show(((Fragment)cameraFrag))
           .commit();
     }
   }
@@ -104,7 +120,7 @@ public class CameraActivity extends AbstractCameraActivity
 
         getFragmentManager()
           .beginTransaction()
-          .hide(cameraFrag)
+          .hide(((Fragment)cameraFrag))
           .show(confirmFrag)
           .commit();
       }
@@ -122,7 +138,7 @@ public class CameraActivity extends AbstractCameraActivity
     getFragmentManager()
         .beginTransaction()
         .hide(confirmFrag)
-        .show(cameraFrag)
+        .show(((Fragment)cameraFrag))
         .commit();
   }
 
@@ -201,7 +217,7 @@ public class CameraActivity extends AbstractCameraActivity
     getFragmentManager()
         .beginTransaction()
         .remove(confirmFrag)
-        .remove(cameraFrag)
+        .remove(((Fragment)cameraFrag))
         .commit();
   }
 
@@ -221,10 +237,11 @@ public class CameraActivity extends AbstractCameraActivity
      */
     public IntentBuilder(Context ctxt) {
       super(ctxt, CameraActivity.class);
+        CameraUtils.validateEnvironment(ctxt);
     }
 
     @Override
-    Intent buildChooserBaseIntent() {
+    public Intent buildChooserBaseIntent() {
       return(new Intent(MediaStore.ACTION_IMAGE_CAPTURE));
     }
 

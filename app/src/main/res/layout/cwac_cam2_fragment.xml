@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <FrameLayout
+    android:id="@+id/cwac_cam2_preview_stack"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ru.onyanov.camera.CameraView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
+
+
+  </FrameLayout>
+
+  <ImageView
+      android:id="@+id/cwac_cam2_mask"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop"
+      android:alpha="0.5" />
+
+  <ProgressBar
+    android:id="@+id/cwac_cam2_progress"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:visibility="visible"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/cwac_cam2_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cwac_cam2_ic_action_camera"
+        android:tint="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/fab_margin"
+
+        app:backgroundTint="@color/blue"
+        app:borderWidth="0dp"/>
+
+</RelativeLayout>

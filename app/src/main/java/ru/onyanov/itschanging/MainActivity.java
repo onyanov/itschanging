@@ -22,7 +22,6 @@ import java.io.File;
 
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
-import ru.onyanov.camera.CameraActivity;
 import ru.onyanov.camera.Facing;
 import ru.onyanov.camera.FocusMode;
 import ru.onyanov.camera.ZoomStyle;

@@ -27,7 +27,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.List;
 
-import ru.onyanov.camera.CameraActivity;
 import ru.onyanov.camera.Facing;
 import ru.onyanov.camera.FocusMode;
 import ru.onyanov.camera.ZoomStyle;
@@ -259,12 +258,14 @@ public class ProjectActivity extends AppCompatActivity implements VideoCompilati
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (destinationPath == null) {
-            //TODO Where's the file?!
-            Toast.makeText(ProjectActivity.this, R.string.bad_shot, Toast.LENGTH_SHORT).show();
-        } else {
-            Photo newPhoto = DataManager.createPhoto(destinationPath.getName(), project);
-            mAdapter.addPhoto(newPhoto);
+        if (resultCode == RESULT_OK) {
+            if (destinationPath == null) {
+                //TODO Where's the file?!
+                Toast.makeText(ProjectActivity.this, R.string.bad_shot, Toast.LENGTH_SHORT).show();
+            } else {
+                Photo newPhoto = DataManager.createPhoto(destinationPath.getName(), project);
+                mAdapter.addPhoto(newPhoto);
+            }
         }
     }
 

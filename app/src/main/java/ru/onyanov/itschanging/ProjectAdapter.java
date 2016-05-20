@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -69,7 +70,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 //File projectDir = DataManager.getProjectDirectory(context, project);
 
                 if (maskPhoto != null) {
-                    int height = width * 9 / 16;
+                    int height = context.getResources().getDimensionPixelSize(R.dimen.project_image_height);
                     File file = new File(projectDir, maskPhoto.getFile());
 
                     Picasso.with(holder.imageView.getContext())

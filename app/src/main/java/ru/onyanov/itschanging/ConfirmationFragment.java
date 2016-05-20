@@ -12,7 +12,7 @@
  limitations under the License.
  */
 
-package ru.onyanov.camera;
+package ru.onyanov.itschanging;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -26,6 +26,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import ru.onyanov.camera.ImageContext;
 
 public class ConfirmationFragment extends Fragment {
   public interface Contract {
@@ -112,10 +114,10 @@ public class ConfirmationFragment extends Fragment {
     if (item.getItemId()==android.R.id.home) {
       getContract().completeRequest(imageContext, false);
     }
-    else if (item.getItemId()==R.id.cwac_cam2_ok) {
+    else if (item.getItemId()== R.id.cwac_cam2_ok) {
       getContract().completeRequest(imageContext, true);
     }
-    else if (item.getItemId()==R.id.cwac_cam2_retry) {
+    else if (item.getItemId()== R.id.cwac_cam2_retry) {
       getContract().retakePicture();
     }
     else {

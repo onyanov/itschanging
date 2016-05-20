@@ -2,19 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.onyanov.itschanging">
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-         />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="ru.onyanov.itschanging.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ru.onyanov.itschanging.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,19 +22,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ru.onyanov.itschanging.ProjectActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".ProjectActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="ru.onyanov.itschanging.ProjectFormActivity"
+            android:name=".ProjectFormActivity"
             android:label="@string/project_edit"
             android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
-            android:name="ru.onyanov.itschanging.SlideshowActivity"
+            android:name=".SlideshowActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme"/>
+            android:theme="@style/FullscreenTheme" />
+
+        <activity
+            android:name=".CameraActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
     </application>
 
 </manifest>

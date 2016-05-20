@@ -10,4 +10,13 @@
 
     <color name="darkColorAccent">#FFEE58</color>
     <color name="nightColorPrimaryDark">#33691E</color>
+    <color name="button_grey">#9E9E9E</color>
+
+    <color name="cwac_cam2_secondary_fab">#fafafa</color>
+    <color name="cwac_cam2_secondary_fab_pressed">#f1f1f1</color>
+    <color name="cwac_cam2_recording_fab">#da4336</color>
+    <color name="cwac_cam2_recording_fab_pressed">#e75043</color>
+    <color name="cwac_cam2_picture_fab">#00a400</color>
+    <color name="cwac_cam2_picture_fab_pressed">#00da00</color>
+    <color name="blue">#039BE5</color>
 </resources>

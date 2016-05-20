@@ -12,12 +12,8 @@
  * limitations under the License.
  */
 
-package ru.onyanov.camera;
+package ru.onyanov.itschanging;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Bitmap;
@@ -25,44 +21,44 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.LinkedList;
 
 import de.greenrobot.event.EventBus;
+import ru.onyanov.camera.CameraController;
+import ru.onyanov.camera.CameraEngine;
+import ru.onyanov.camera.CameraFragmentContract;
+import ru.onyanov.camera.CameraView;
+import ru.onyanov.camera.PictureTransaction;
+import ru.onyanov.camera.ZoomStyle;
 
 /**
  * Fragment for displaying a camera preview, with hooks to allow
  * you (or the user) to take a picture.
  */
-public class CameraFragment extends Fragment {
+public class CameraFragment extends Fragment implements CameraFragmentContract {
+    private static final String TAG = "CameraFragment";
     private static final String ARG_OUTPUT = "output";
     private static final String ARG_UPDATE_MEDIA_STORE = "updateMediaStore";
-    private static final String ARG_SIZE_LIMIT = "sizeLimit";
+    //private static final String ARG_SIZE_LIMIT = "sizeLimit";
     private static final String ARG_ZOOM_STYLE = "zoomStyle";
     private static final String ARG_MASK = "previewMask";
-    private static final int PINCH_ZOOM_DELTA = 20;
+    //private static final int PINCH_ZOOM_DELTA = 20;
     private CameraController ctlr;
     private ViewGroup previewStack;
     private FloatingActionButton fabPicture;
-    private FloatingActionButton fabSwitch;
     private View progress;
-    private boolean mirrorPreview = false;
-    private ScaleGestureDetector scaleDetector;
-    private boolean inSmoothPinchZoom = false;
-    private SeekBar zoomSlider;
-    private ImageView previewMask;
+    //private boolean mirrorPreview = false;
+    //private ScaleGestureDetector scaleDetector;
+    //private boolean inSmoothPinchZoom = false;
 
     public static CameraFragment newPictureInstance(Uri output,
                                                     boolean updateMediaStore,
@@ -90,8 +86,7 @@ public class CameraFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setRetainInstance(true);
-        scaleDetector = new ScaleGestureDetector(getActivity(),
-                scaleListener);
+        //scaleDetector = new ScaleGestureDetector(getActivity(), scaleListener);
     }
 
     /**
@@ -116,11 +111,12 @@ public class CameraFragment extends Fragment {
             ActionBar ab = getActivity().getActionBar();
 
             if (ab != null) {
+                /*
                 ab.setBackgroundDrawable(getActivity()
                         .getResources()
-                        .getDrawable(R.drawable.cwac_cam2_action_bar_bg_transparent));
+                        .getDrawable(ru.onyanov.camera.R.drawable.cwac_cam2_action_bar_bg_transparent));
                 ab.setTitle("");
-
+*/
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     ab.setDisplayHomeAsUpEnabled(false);
                 } else {
@@ -131,7 +127,7 @@ public class CameraFragment extends Fragment {
 
             if (fabPicture != null) {
                 fabPicture.setEnabled(true);
-                fabSwitch.setEnabled(true);
+                //fabSwitch.setEnabled(true);
             }
         }
     }
@@ -180,9 +176,46 @@ public class CameraFragment extends Fragment {
 
         String maskPath = getArguments().getString(ARG_MASK);
         if (maskPath != null) {
-            previewMask = (ImageView) v.findViewById(R.id.cwac_cam2_mask);
-            File maskFile = new File(maskPath);
-            setImageFromFile(previewMask, maskFile);
+            final ImageView maskView = (ImageView) v.findViewById(R.id.cwac_cam2_mask);
+            final File maskFileFinal = new File(maskPath);
+
+
+            Picasso.with(getActivity())
+                    .load(maskFileFinal)
+                    .fit()
+                    .centerCrop()
+                    .into(maskView);
+
+
+            //TODO replace with Picasso
+            /*
+            maskView.post(new Runnable() {
+                @Override
+                public void run() {
+                    int width = maskView.getWidth();
+                    int height = maskView.getHeight();
+
+                    Log.d(TAG, "run: mask with " + width + " x " + height);
+
+                    Picasso.with(getActivity())
+                            .load(maskFileFinal)
+                            .resize(width, height)
+                            .centerCrop()
+                            .into(maskView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.d(TAG, "onSuccess: " + maskFileFinal);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Log.d(TAG, "onError: " + maskFileFinal);
+                                }
+                            });
+                }
+            });
+            */
+            //setImageFromFile(maskView, maskFile);
         }
 
         previewStack = (ViewGroup) v.findViewById(R.id.cwac_cam2_preview_stack);
@@ -198,6 +231,7 @@ public class CameraFragment extends Fragment {
             }
         });
 
+        /*
         fabSwitch = (FloatingActionButton) v.findViewById(R.id.cwac_cam2_switch_camera);
         fabSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,14 +241,15 @@ public class CameraFragment extends Fragment {
                 ctlr.switchCamera();
             }
         });
+        */
 
-        changeMenuIconAnimation((FloatingActionMenu) v.findViewById(R.id.cwac_cam2_settings));
+        //changeMenuIconAnimation((FloatingActionMenu) v.findViewById(R.id.cwac_cam2_settings));
 
         onHiddenChanged(false); // hack, since this does not get
         // called on initial display
 
         fabPicture.setEnabled(false);
-        fabSwitch.setEnabled(false);
+        //fabSwitch.setEnabled(false);
 
         if (ctlr != null && ctlr.getNumberOfCameras() > 0) {
             prepController();
@@ -236,6 +271,7 @@ public class CameraFragment extends Fragment {
     /**
      * @return the CameraController this fragment delegates to
      */
+    @SuppressWarnings("unused")
     public CameraController getController() {
         return (ctlr);
     }
@@ -245,9 +281,11 @@ public class CameraFragment extends Fragment {
      *
      * @param ctlr the controller that this fragment delegates to
      */
+    @Override
     public void setController(CameraController ctlr) {
         this.ctlr = ctlr;
     }
+
 
     /**
      * Indicates if we should mirror the preview or not. Defaults
@@ -256,9 +294,12 @@ public class CameraFragment extends Fragment {
      * @param mirror true if we should horizontally mirror the
      *               preview, false otherwise
      */
+    @Override
     public void setMirrorPreview(boolean mirror) {
-        this.mirrorPreview = mirror;
+        //Do nothing at this version
+        //this.mirrorPreview = mirror;
     }
+
 
     @SuppressWarnings("unused")
     public void onEventMainThread(CameraController.ControllerReadyEvent event) {
@@ -272,10 +313,11 @@ public class CameraFragment extends Fragment {
 
         if (event.exception == null) {
             progress.setVisibility(View.GONE);
-            fabSwitch.setEnabled(true);
+            //fabSwitch.setEnabled(true);
             fabPicture.setEnabled(true);
-            zoomSlider = (SeekBar) getView().findViewById(R.id.cwac_cam2_zoom);
+            //zoomSlider = (SeekBar) getView().findViewById(R.id.cwac_cam2_zoom);
 
+            /*
             if (ctlr.supportsZoom()) {
                 if (getZoomStyle() == ZoomStyle.PINCH) {
                     previewStack.setOnTouchListener(
@@ -293,17 +335,20 @@ public class CameraFragment extends Fragment {
                 previewStack.setOnTouchListener(null);
                 zoomSlider.setVisibility(View.GONE);
             }
+            */
         } else {
             getActivity().finish();
         }
     }
 
+    /*
     public void onEventMainThread(CameraEngine.SmoothZoomCompletedEvent event) {
         inSmoothPinchZoom = false;
         zoomSlider.setEnabled(true);
-    }
+    }*/
 
-    protected void performCameraAction() {
+    @Override
+    public void performCameraAction() {
         takePicture();
     }
 
@@ -318,21 +363,21 @@ public class CameraFragment extends Fragment {
         }
 
         fabPicture.setEnabled(false);
-        fabSwitch.setEnabled(false);
+        //fabSwitch.setEnabled(false);
         ctlr.takePicture(b.build());
     }
 
     private void prepController() {
-        LinkedList<CameraView> cameraViews = new LinkedList<CameraView>();
+        LinkedList<CameraView> cameraViews = new LinkedList<>();
         CameraView cv = (CameraView) previewStack.getChildAt(0);
 
-        cv.setMirror(mirrorPreview);
+        //cv.setMirror(mirrorPreview);
         cameraViews.add(cv);
 
         for (int i = 1; i < ctlr.getNumberOfCameras(); i++) {
             cv = new CameraView(getActivity());
             cv.setVisibility(View.INVISIBLE);
-            cv.setMirror(mirrorPreview);
+            //cv.setMirror(mirrorPreview);
             previewStack.addView(cv);
             cameraViews.add(cv);
         }
@@ -340,6 +385,7 @@ public class CameraFragment extends Fragment {
         ctlr.setCameraViews(cameraViews);
     }
 
+    /*
     // based on https://goo.gl/3IUM8K
 
     private void changeMenuIconAnimation(final FloatingActionMenu menu) {
@@ -371,7 +417,9 @@ public class CameraFragment extends Fragment {
         set.setInterpolator(new OvershootInterpolator(2));
         menu.setIconToggleAnimatorSet(set);
     }
+*/
 
+    /*
     private ZoomStyle getZoomStyle() {
         ZoomStyle result = (ZoomStyle) getArguments().getSerializable(ARG_ZOOM_STYLE);
 
@@ -381,7 +429,9 @@ public class CameraFragment extends Fragment {
 
         return (result);
     }
+    */
 
+    /*
     private ScaleGestureDetector.OnScaleGestureListener scaleListener =
             new ScaleGestureDetector.SimpleOnScaleGestureListener() {
                 @Override
@@ -404,7 +454,9 @@ public class CameraFragment extends Fragment {
                     }
                 }
             };
+*/
 
+    /*
     private SeekBar.OnSeekBarChangeListener seekListener =
             new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -428,4 +480,5 @@ public class CameraFragment extends Fragment {
                     // no-op
                 }
             };
+            */
 }

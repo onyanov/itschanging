@@ -37,4 +37,7 @@
     <string name="action_save">Сохранить</string>
     <string name="fish_photo_count">15 фото</string>
     <string name="fish_date">14 июля</string>
+
+    <string name="cwac_cam2_ok">OK</string>
+    <string name="cwac_cam2_retry">Try again</string>
 </resources>
